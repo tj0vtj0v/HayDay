@@ -1,4 +1,5 @@
 from data_json import to_json
+from DBConnection import DbConnection
 
 items = to_json().items()
 source = to_json().source()
@@ -42,19 +43,28 @@ def get_profit(index: int) -> float:
     ingredient_cost = 0
     for ingredient in range(1, 5):
         if item_ingredients[f'ingredient_{ingredient}'] is not None:
-            ingredient_cost += items[item_ingredients[f'ingredient_{ingredient}']]['maximum_price']
+            ingredient_price = float(items[item_ingredients[f'ingredient_{ingredient}']]['maximum_price'])
+            ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
+            ingredient_cost += ingredient_price * ingredient_quantity
 
     return price - ingredient_cost
 
 
+# save evaluated data
 complete_production_time = {}
 cropless_production_time = {}
 profit = {}
-for x in range(1, len(items) + 1):
+
+db = DbConnection('hayday', 'i_am_hayday', 'hayday')
+
+for index in range(1, len(items) + 1):
     try:
-        complete_production_time[x] = round(get_complete_production_time(x), 2)
-        cropless_production_time[x] = round(get_cropless_production_time(x), 2)
-        profit[x] = get_profit(x)
+        complete_production_time[index] = round(get_complete_production_time(index), 2)
+        cropless_production_time[index] = round(get_cropless_production_time(index), 2)
+        profit[index] = round(get_profit(index), 2)
+
+        values = f'{index}, {complete_production_time[index]}, {cropless_production_time[index]}, {profit[index]}'
+        db.make_entry('evaluation', values)
     except ZeroDivisionError:
         pass
 

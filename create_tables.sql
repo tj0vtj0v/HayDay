@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `items`
 CREATE TABLE IF NOT EXISTS `evaluation`
 (
     `id`            INT,
-    `time`          DECIMAL(6, 4),
-    `time_no_crops` DECIMAL(6, 4),
+    `crops_time`          DECIMAL(6, 4),
+    `no_crops_time` DECIMAL(6, 4),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`id`) REFERENCES items (`id`)
 );
