@@ -45,7 +45,7 @@ def modify():
     db.exec_statement('''UPDATE items SET `production_time` = 0, `mastered_time` = 0 WHERE id <= 198 AND id >= 193;''')
 
     # update false production times, order by index
-    # lobster tail?
+    # TODO lobster tail?
     db.exec_statement('''UPDATE items SET `production_time` = 25 WHERE name = "Winter Veggies"''')
     db.exec_statement('''UPDATE items SET `production_time` = 30 WHERE name = "Gingerbread Cookie"''')
     db.exec_statement('''UPDATE items SET `mastered_time` = 76 WHERE name = "Honey Mask"''')
