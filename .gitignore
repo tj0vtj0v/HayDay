@@ -3,5 +3,5 @@
 .idea
 
 # KNIME unneccessary data
-Knime - Enhance Data/.metadata
-Knime - Enhance Data/Example Workflows
+Knime - Enhance Data/.metadata/*
+Knime - Enhance Data/Example Workflows/*
