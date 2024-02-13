@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `items`;
 DROP TABLE IF EXISTS `ingredients`;
 DROP TABLE IF EXISTS `source`;
 DROP TABLE IF EXISTS `evaluation`;
+DROP TABLE IF EXISTS `ore_probability`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS `ingredients`
@@ -52,3 +53,17 @@ CREATE TABLE IF NOT EXISTS `evaluation`
     PRIMARY KEY (`id`),
     FOREIGN KEY (`id`) REFERENCES items (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `ore_probability`
+(
+    `id`              INT           NOT NULL,
+    `categories`      VARCHAR(32)   NOT NULL,
+    `silver`          DECIMAL(4, 2) NOT NULL,
+    `gold`            DECIMAL(4, 2) NOT NULL,
+    `platinum`        DECIMAL(4, 2) NOT NULL,
+    `iron`            DECIMAL(4, 2) NOT NULL,
+    `coal`            DECIMAL(4, 2) NOT NULL,
+    `diamond`         DECIMAL(4, 2) NOT NULL,
+    `ores_per_diamond` DECIMAL(4, 2) NOT NULL,
+    PRIMARY KEY (`id`)
+)
