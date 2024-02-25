@@ -1,4 +1,3 @@
-from pprint import pprint
 from DBConnection import DbConnection
 
 # input data       -- structure: silver, gold, platinum, iron, coal, diamond
@@ -67,6 +66,6 @@ table.append(MAE)
 row_names = ['dynamite', 'TNT', 'shovel', 'pickaxe', 'overall', 'Mean_Absolute_Error']
 
 for row in range(0, len(table)):
-    temp = [str(x) for x in table[row]]
-    values = f'{row}, "{row_names[row]}", "' + '", "'.join(temp) + f'", "{str(ore_per_diamond[row])}"'
+    tmp = [str(x) for x in table[row]]
+    values = f'{row}, "{row_names[row]}", "' + '", "'.join(tmp) + f'", "{str(ore_per_diamond[row])}"'
     db.make_entry('ore_probability', values)
