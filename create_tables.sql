@@ -48,22 +48,24 @@ CREATE TABLE IF NOT EXISTS `items`
 CREATE TABLE IF NOT EXISTS `evaluation`
 (
     `id`            INT,
-    `crops_time`          DECIMAL(6, 4),
-    `no_crops_time` DECIMAL(6, 4),
+    `complete_time` DECIMAL(6, 2),
+    `no_crops_time` DECIMAL(6, 2),
+    `profit`        DECIMAL(5, 2),
+    `complete_experience` INT,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`id`) REFERENCES items (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `ore_probability`
 (
-    `id`              INT           NOT NULL,
-    `categories`      VARCHAR(32)   NOT NULL,
-    `silver`          DECIMAL(4, 2) NOT NULL,
-    `gold`            DECIMAL(4, 2) NOT NULL,
-    `platinum`        DECIMAL(4, 2) NOT NULL,
-    `iron`            DECIMAL(4, 2) NOT NULL,
-    `coal`            DECIMAL(4, 2) NOT NULL,
-    `diamond`         DECIMAL(4, 2) NOT NULL,
+    `id`               INT           NOT NULL,
+    `categories`       VARCHAR(32)   NOT NULL,
+    `silver`           DECIMAL(4, 2) NOT NULL,
+    `gold`             DECIMAL(4, 2) NOT NULL,
+    `platinum`         DECIMAL(4, 2) NOT NULL,
+    `iron`             DECIMAL(4, 2) NOT NULL,
+    `coal`             DECIMAL(4, 2) NOT NULL,
+    `diamond`          DECIMAL(4, 2) NOT NULL,
     `ores_per_diamond` DECIMAL(4, 2) NOT NULL,
     PRIMARY KEY (`id`)
 )

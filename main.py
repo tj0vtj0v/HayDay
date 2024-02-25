@@ -13,8 +13,9 @@ def get_complete_production_time(index: int) -> float:
 
     for ingredient in range(1, 5):
         if item_ingredients[f'ingredient_{ingredient}'] is not None:
-            production_time += get_complete_production_time(item_ingredients[f'ingredient_{ingredient}']) * float(
-                item_ingredients[f'quantity_{ingredient}'])
+            ingredient_time = get_complete_production_time(item_ingredients[f'ingredient_{ingredient}'])
+            ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
+            production_time += ingredient_time * ingredient_quantity
 
     return production_time
 
@@ -29,8 +30,9 @@ def get_cropless_production_time(index: int) -> float:
 
     for ingredient in range(1, 5):
         if item_ingredients[f'ingredient_{ingredient}'] is not None:
-            production_time += get_cropless_production_time(item_ingredients[f'ingredient_{ingredient}']) * float(
-                item_ingredients[f'quantity_{ingredient}'])
+            ingredient_time = get_cropless_production_time(item_ingredients[f'ingredient_{ingredient}'])
+            ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
+            production_time += ingredient_time * ingredient_quantity
 
     return production_time
 
@@ -50,22 +52,30 @@ def get_profit(index: int) -> float:
     return price - ingredient_cost
 
 
-# save evaluated data
-complete_production_time = {}
-cropless_production_time = {}
-profit = {}
+def get_complete_xp(index: int) -> int:
+    item = items[index]
+    experience = item['experience']
+    item_ingredients = ingredients[items[index]['ingredients']]
+
+    for ingredient in range(1, 5):
+        if item_ingredients[f'ingredient_{ingredient}'] is not None:
+            ingredient_xp = get_complete_xp(item_ingredients[f'ingredient_{ingredient}'])
+            ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
+            experience += ingredient_xp * ingredient_quantity
+
+    return experience
+
 
 db = DbConnection('hayday', 'i_am_hayday', 'hayday')
 
 for index in range(1, len(items) + 1):
     try:
-        complete_production_time[index] = round(get_complete_production_time(index), 2)
-        cropless_production_time[index] = round(get_cropless_production_time(index), 2)
-        profit[index] = round(get_profit(index), 2)
+        complete_production_time = round(get_complete_production_time(index), 2)
+        cropless_production_time = round(get_cropless_production_time(index), 2)
+        profit = round(get_profit(index), 2)
+        complete_experience = get_complete_xp(index)
 
-        values = f'{index}, {complete_production_time[index]}, {cropless_production_time[index]}, {profit[index]}'
+        values = f'{index}, {complete_production_time}, {cropless_production_time}, {profit}, {complete_experience}'
         db.make_entry('evaluation', values)
     except ZeroDivisionError:
         pass
-
-
