@@ -3,7 +3,9 @@ DROP TABLE IF EXISTS `items`;
 DROP TABLE IF EXISTS `ingredients`;
 DROP TABLE IF EXISTS `source`;
 DROP TABLE IF EXISTS `evaluation`;
-DROP TABLE IF EXISTS `ore_probability`;
+DROP TABLE IF EXISTS `ore_probability`;;
+DROP TABLE IF EXISTS `animal_steps`;
+DROP TABLE IF EXISTS `magic_number`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS `ingredients`
@@ -22,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `ingredients`
 
 CREATE TABLE IF NOT EXISTS `source`
 (
-    `id`       INT,
-    `name`     VARCHAR(64),
-    `mastered` bit DEFAULT 0,
+    `id`       INT         NOT NULL,
+    `name`     VARCHAR(64) NOT NULL,
+    `mastered` boolean DEFAULT FALSE,
     PRIMARY KEY (`id`)
 );
 
@@ -47,11 +49,11 @@ CREATE TABLE IF NOT EXISTS `items`
 
 CREATE TABLE IF NOT EXISTS `evaluation`
 (
-    `id`            INT,
-    `complete_time` DECIMAL(6, 2),
-    `no_crops_time` DECIMAL(6, 2),
-    `profit`        DECIMAL(5, 2),
-    `complete_experience` INT,
+    `id`                  INT           NOT NULL,
+    `complete_time`       DECIMAL(6, 2) NOT NULL,
+    `no_crops_time`       DECIMAL(6, 2) NOT NULL,
+    `profit`              DECIMAL(5, 2) NOT NULL,
+    `complete_experience` INT           NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`id`) REFERENCES items (`id`)
 );
@@ -68,4 +70,22 @@ CREATE TABLE IF NOT EXISTS `ore_probability`
     `diamond`          DECIMAL(4, 2) NOT NULL,
     `ores_per_diamond` DECIMAL(4, 2) NOT NULL,
     PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `animal_steps`
+(
+    `id`         INT           NOT NULL,
+    `name`       varchar(64)   NOT NULL,
+    `level`      INT           NOT NULL,
+    `experience` INT           NOT NULL,
+    `cooldown`   DECIMAL(5, 2) NOT NULL,
+    `step_value` INT,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `magic_number`
+(
+    `level`        INT NOT NULL,
+    `magic_number` INT NOT NULL,
+    PRIMARY KEY (`level`)
 )
