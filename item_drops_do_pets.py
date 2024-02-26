@@ -85,7 +85,7 @@ def __get_magic_numbers():
             lvl_range = [element for element in line.split(" ")]
             if len(lvl_range[0].split("-")) > 1:
                 for level in range(int(lvl_range[0].split("-")[0]), int(lvl_range[0].split("-")[1]) + 1):
-                    magic_numbers.append([level, lvl_range[-1]])
+                    magic_numbers.append([level, lvl_range[1]])
             else:
                 magic_numbers.append(lvl_range[0:2])
 

@@ -8,6 +8,6 @@ start: https://hayday.fandom.com/wiki/Mine
 https://justhayday.boards.net/thread/2235/when-mining-ores
 -> https://justhayday.boards.net/thread/449/miningtools-ore-10-diamonds?page=1&scrollTo=5764
 
-#TODO
+drops
 https://justhayday.boards.net/thread/315/legacy-pets-animals-guide-drops
-
+https://haydayguides.com/tools/pets-tool.php
