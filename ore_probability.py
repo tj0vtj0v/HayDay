@@ -1,4 +1,5 @@
 from DBConnection import DbConnection
+from dotenv import get_key
 
 # input data       -- structure: silver, gold, platinum, iron, coal, diamond
 dynamite = [131, 83, 48, 71, 86, 10]
@@ -23,7 +24,6 @@ percentages = [percentages_each(dynamite),
                percentages_each(shovel),
                percentages_each(pickaxe)]
 
-
 # get percentages for all
 totals = []
 for element in range(0, len(percentages[0])):
@@ -34,7 +34,6 @@ total_percentages = []
 for element in range(0, len(totals)):
     total_percentages.append(round(totals[element] / total_totals * 100, 2))
 
-
 # get MAE for all percentages
 MAE = []
 for element in range(0, len(total_percentages)):
@@ -42,7 +41,6 @@ for element in range(0, len(total_percentages)):
     for miner in range(0, len(percentages)):
         MAE_element += abs(total_percentages[element] - percentages[miner][element])
     MAE.append(round(MAE_element / len(percentages), 2))
-
 
 # get diamonds per ore ratio
 ore_per_diamond = [round(sum(dynamite[0:5]) / 10, 2),
@@ -56,9 +54,10 @@ for miner in range(0, len(percentages)):
     MAE_ore_per_diamond += abs(ore_per_diamond[-1] - ore_per_diamond[miner])
 ore_per_diamond.append(round(MAE_ore_per_diamond / len(percentages), 2))
 
-
 # insert data in database
-db = DbConnection('hayday', 'i_am_hayday', 'hayday')
+db = DbConnection(get_key(".env", "DB_USER"),
+                  get_key(".env", "DB_PWD"),
+                  get_key(".env", "DB_NAME"))
 
 table = percentages
 table.append(total_percentages)

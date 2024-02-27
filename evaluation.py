@@ -1,5 +1,6 @@
 from data_json import to_json
 from DBConnection import DbConnection
+from dotenv import get_key
 
 items = to_json().items()
 source = to_json().source()
@@ -66,7 +67,9 @@ def get_complete_xp(index: int) -> int:
     return experience
 
 
-db = DbConnection('hayday', 'i_am_hayday', 'hayday')
+db = DbConnection(get_key(".env", "DB_USER"),
+                  get_key(".env", "DB_PWD"),
+                  get_key(".env", "DB_NAME"))
 
 for index in range(1, len(items) + 1):
     try:

@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from DBConnection import DbConnection
+from dotenv import get_key
 
 driver = webdriver.Chrome()
 
@@ -114,7 +115,9 @@ def __build_animal_steps_values():
     return entries
 
 
-db = DbConnection('hayday', 'i_am_hayday', 'hayday')
+db = DbConnection(get_key(".env", "DB_USER"),
+                  get_key(".env", "DB_PWD"),
+                  get_key(".env", "DB_NAME"))
 
 pets = __get_pets()
 step_value = __get_step_value()

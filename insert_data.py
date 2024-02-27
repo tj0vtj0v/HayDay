@@ -1,11 +1,14 @@
 from openpyxl import Workbook, load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from string import ascii_uppercase
+from dotenv import get_key
 
 from DBConnection import DbConnection
 
 # establish DB connection
-db = DbConnection('hayday', 'i_am_hayday', 'hayday')
+db = DbConnection(get_key(".env", "DB_USER"),
+                  get_key(".env", "DB_PWD"),
+                  get_key(".env", "DB_NAME"))
 
 # connect EXCEL file
 wb: Workbook

@@ -1,9 +1,12 @@
-import DBConnection
+from DBConnection import DbConnection
+from dotenv import get_key
 
 
 class to_json:
     def __init__(self):
-        self.db = DBConnection.DbConnection('hayday', 'i_am_hayday', 'hayday')
+        self.db = DbConnection(get_key(".env", "DB_USER"),
+                               get_key(".env", "DB_PWD"),
+                               get_key(".env", "DB_NAME"))
 
     def items(self):
         return self.__general_collector('items')

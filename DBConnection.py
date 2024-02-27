@@ -1,8 +1,12 @@
 import mysql.connector as db
+from dotenv import get_key
 
 
 class DbConnection:
-    def __init__(self, user: str, password: str, database: str, host: str = 'raspi', port: str = '3306'):
+    def __init__(self, user: str, password: str, database: str,
+                 host: str = get_key(".env", "DB_HOST"),
+                 port: str = get_key(".env", "DB_PORT")
+                 ):
         self.database = db.connect(
             host=host,
             port=port,

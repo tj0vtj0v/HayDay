@@ -2,6 +2,9 @@
 .venv
 .idea
 
+# private information
+.env
+
 # KNIME unneccessary data
 Knime - Enhance Data/.metadata/*
 Knime - Enhance Data/Example Workflows/*
