@@ -7,23 +7,23 @@ source = to_json().source()
 ingredients = to_json().ingredients()
 
 
-def get_complete_production_time(index: int) -> float:
+def get_complete_time(index: int, time_type: str) -> float:
     item = items[index]
-    production_time = float(item['production_time'])
+    production_time = float(item[f'{time_type}_time'])
     item_ingredients = ingredients[items[index]['ingredients']]
 
     for ingredient in range(1, 5):
         if item_ingredients[f'ingredient_{ingredient}'] is not None:
-            ingredient_time = get_complete_production_time(item_ingredients[f'ingredient_{ingredient}'])
+            ingredient_time = get_complete_time(item_ingredients[f'ingredient_{ingredient}'], time_type)
             ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
             production_time += ingredient_time * ingredient_quantity
 
     return production_time
 
 
-def get_cropless_production_time(index: int) -> float:
+def get_cropless_time(index: int, time_type: str) -> float:
     item = items[index]
-    production_time = float(item['production_time'])
+    production_time = float(item[f'{time_type}_time'])
     item_ingredients = ingredients[items[index]['ingredients']]
 
     if item_ingredients['ingredient_1'] is None:
@@ -31,7 +31,7 @@ def get_cropless_production_time(index: int) -> float:
 
     for ingredient in range(1, 5):
         if item_ingredients[f'ingredient_{ingredient}'] is not None:
-            ingredient_time = get_cropless_production_time(item_ingredients[f'ingredient_{ingredient}'])
+            ingredient_time = get_cropless_time(item_ingredients[f'ingredient_{ingredient}'], time_type)
             ingredient_quantity = float(item_ingredients[f'quantity_{ingredient}'])
             production_time += ingredient_time * ingredient_quantity
 
@@ -73,12 +73,14 @@ db = DbConnection(get_key(".env", "DB_USER"),
 
 for index in range(1, len(items) + 1):
     try:
-        complete_production_time = round(get_complete_production_time(index), 2)
-        cropless_production_time = round(get_cropless_production_time(index), 2)
+        complete_production_time = round(get_complete_time(index, "production"), 2)
+        cropless_production_time = round(get_cropless_time(index, "production"), 2)
+        complete_mastered_time = round(get_complete_time(index, "mastered"), 2)
+        cropless_mastered_time = round(get_cropless_time(index, "mastered"), 2)
         profit = round(get_profit(index), 2)
         complete_experience = get_complete_xp(index)
 
-        values = f'{index}, {complete_production_time}, {cropless_production_time}, {profit}, {complete_experience}'
+        values = f'{index}, {complete_production_time}, {complete_mastered_time}, {cropless_production_time}, {cropless_mastered_time}, {profit}, {complete_experience}'
         db.make_entry('evaluation', values)
     except ZeroDivisionError:
         pass

@@ -11,7 +11,7 @@ driver.get("https://haydayguides.com/tools/pets-tool.php")
 
 driver.implicitly_wait(1)
 for cards in range(1, 6):
-    driver.find_element(By.XPATH, f'/html/body/div[1]/div/div[1]/form/div[{cards}]/div/input').send_keys(10000)
+   driver.find_element(By.XPATH, f'/html/body/div[1]/div/div[1]/form/div[{cards}]/div/input').send_keys(10000)
 
 driver.find_element(By.XPATH, "/html/body/div[1]/div/div[1]/form/div[6]/button").click()
 
@@ -88,12 +88,36 @@ def __get_magic_numbers():
                 for level in range(int(lvl_range[0].split("-")[0]), int(lvl_range[0].split("-")[1]) + 1):
                     magic_numbers.append([level, lvl_range[1]])
             else:
-                magic_numbers.append(lvl_range[0:2])
+                magic_numbers.append([int(lvl_range[0]), lvl_range[1]])
+
+    for add_level in range(71, 74):
+        magic_numbers.insert(add_level - 5, [add_level, 74])
 
     return magic_numbers
 
 
-def __build_animal_steps_values():
+def __calculate_fields(levels: list):
+    levels[0].append(12)
+
+    for i in range(1, len(levels)):
+        if levels[i][0] <= 49:
+            added_fields = 3
+        elif levels[i][0] <= 99:
+            added_fields = 2
+        else:
+            added_fields = 1
+
+        if int(levels[i][0]) % 2:
+            levels[i].append(int(levels[i - 1][2]) + added_fields)
+        else:
+            levels[i].append(levels[i - 1][2])
+
+        print(levels[i])
+
+    return levels
+
+
+def __build_animal_steps_values(pets: list, step_value: list):
     id_counter = 1
     entries = []
     for animal in step_value:
@@ -119,12 +143,9 @@ db = DbConnection(get_key(".env", "DB_USER"),
                   get_key(".env", "DB_PWD"),
                   get_key(".env", "DB_NAME"))
 
-pets = __get_pets()
-step_value = __get_step_value()
-magic_numbers = __get_magic_numbers()
 
-for entry in __build_animal_steps_values():
+for entry in __build_animal_steps_values(__get_pets(), __get_step_value()):
     db.make_entry('animal_steps', entry)
 
-for entry in magic_numbers:
-    db.make_entry('magic_number', f'{entry[0]}, {entry[1]}')
+for entry in __calculate_fields(__get_magic_numbers()):
+    db.make_entry('magic_number', f'"{entry[0]}", "{entry[1]}", "{entry[2]}"')

@@ -1,6 +1,7 @@
 USE hayday;
 
-SELECT s.name                                                   AS `Production Building`,
+SELECT i.experience / i.production_time,
+       s.name                                                   AS `Production Building`,
        i.name                                                   AS `Item Name`,
        i.level                                                  AS `Unlock Level`,
        i.experience                                             AS `Experience`,
@@ -11,9 +12,13 @@ SELECT s.name                                                   AS `Production B
        e.profit / i.production_time                             AS `Profit per Initial Production Time`,
        i.maximum_price                                          AS `Maximum Price`,
        e.complete_experience / i.maximum_price                  AS `Experience Sum per Maximum Price`,
-       e.complete_time                                          AS `Sum of Initial Production Time and Initial Production Time of all and every Ingredient`,
-       i.maximum_price / e.complete_time                        AS `Maximum Price per Initial Production Time Sum`,
-       e.no_crops_time                                          AS `Sum of Initial Production Time and all Ingredients which although have Ingredients`,
+       e.complete_production_time                               AS `Sum of Initial Production Time and Initial Production Time of all and every Ingredient`,
+       i.maximum_price / e.complete_production_time             AS `Maximum Price per Sum of Initial Production Time`,
+       e.no_crops_production_time                               AS `Sum of Initial Production Time and all Ingredients which are Products`,
+       e.complete_mastered_time                                 AS `Sum of Mastered Production Time and Mastered Production Time of all and every Ingredient`,
+       i.maximum_price / e.complete_mastered_time               AS `Maximum Price per Sum of Mastered Production Time`,
+       e.no_crops_mastered_time                                 AS `Sum of Mastered Production Time and all Ingredients which are Products`,
+       e.complete_production_time / e.complete_mastered_time    AS `Ratio of Production Time to Mastered Time`,
        (SELECT name from items where items.id = d.ingredient_1) AS `Ingredient 1`,
        d.quantity_1                                             AS `Quantity of Ingredient 1`,
        (SELECT name from items where items.id = d.ingredient_2) AS `Ingredient 2`,
@@ -25,5 +30,6 @@ SELECT s.name                                                   AS `Production B
 FROM items i
          JOIN evaluation e ON i.id = e.id
          JOIN source s ON i.source = s.id
-         JOIN ingredients d ON i.ingredients = d.id;
-
+         JOIN ingredients d ON i.ingredients = d.id
+WHERE i.level <= 50
+ORDER BY i.experience / i.production_time desc

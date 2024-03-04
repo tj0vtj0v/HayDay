@@ -49,11 +49,13 @@ CREATE TABLE IF NOT EXISTS `items`
 
 CREATE TABLE IF NOT EXISTS `evaluation`
 (
-    `id`                  INT           NOT NULL,
-    `complete_time`       DECIMAL(6, 2) NOT NULL,
-    `no_crops_time`       DECIMAL(6, 2) NOT NULL,
-    `profit`              DECIMAL(5, 2) NOT NULL,
-    `complete_experience` INT           NOT NULL,
+    `id`                       INT           NOT NULL,
+    `complete_production_time` DECIMAL(6, 2) NOT NULL,
+    `complete_mastered_time`   DECIMAL(6, 2) NOT NULL,
+    `no_crops_production_time` DECIMAL(6, 2) NOT NULL,
+    `no_crops_mastered_time`   DECIMAL(6, 2) NOT NULL,
+    `profit`                   DECIMAL(5, 2) NOT NULL,
+    `complete_experience`      INT           NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`id`) REFERENCES items (`id`)
 );
@@ -87,5 +89,6 @@ CREATE TABLE IF NOT EXISTS `magic_number`
 (
     `level`        INT NOT NULL,
     `magic_number` INT NOT NULL,
+    `fields`       INT NOT NULL,
     PRIMARY KEY (`level`)
 )
