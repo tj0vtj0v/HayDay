@@ -1,6 +1,6 @@
 USE hayday;
 
-SELECT i.experience / i.production_time,
+SELECT i.maximum_price*i.maximum_price/e.complete_production_time,
        s.name                                                   AS `Production Building`,
        i.name                                                   AS `Item Name`,
        i.level                                                  AS `Unlock Level`,
@@ -31,5 +31,8 @@ FROM items i
          JOIN evaluation e ON i.id = e.id
          JOIN source s ON i.source = s.id
          JOIN ingredients d ON i.ingredients = d.id
-WHERE i.level <= 50
-ORDER BY i.experience / i.production_time desc
+WHERE i.level <= 100
+ORDER BY i.maximum_price*i.maximum_price / e.complete_production_time desc;
+
+SELECT * from animal_steps Order by experience desc
+
